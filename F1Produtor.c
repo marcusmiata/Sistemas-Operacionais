@@ -5,6 +5,8 @@
 #include <semaphore.h>
 #include <time.h>
 #include "F1.h"
+#include <signal.h>
+#include <sys/wait.h>
 
 #define MEM_SZ sizeof(struct shared_area)
 #define MAX 10
@@ -17,7 +19,7 @@ struct shared_area
 };
 
 
-void FIFO()
+void FIFO(pid_t p4)
 {
   	int i;
 	key_t key=5678;
@@ -61,9 +63,8 @@ void FIFO()
 			}
             else if (shared_area_ptr->num == 10)
             {
-                for(i=0;i<10;i++)
-				   printf("%d ", shared_area_ptr->FIFO[i]);
-                break;
+                //ENVIA SINAL PARA P4
+                kill(p4,SIGUSR1);
             } 
              sem_post((sem_t*)&shared_area_ptr->mutex);
 	}
