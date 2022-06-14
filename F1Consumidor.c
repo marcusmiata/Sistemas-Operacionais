@@ -48,11 +48,11 @@ void retiradeF1(int sinal)
 	
 	for(;;)
 	{
-				
+				// MUDAR PARA SO MEXER QUANDO ESTIVER CHEIA
 			sem_wait((sem_t*)&shared_area_ptr->mutex);
-			     if ( shared_area_ptr->num > 0 )
+			     if ( shared_area_ptr->num > 0)
 			     {	
-			         for(i=0;i<shared_area_ptr->num;i++)
+			         for(i=0;i<10;i++)
 			                printf("%d ",shared_area_ptr->FIFO[i]);
                      printf("\n");
 			         shared_area_ptr->num=0;

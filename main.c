@@ -7,13 +7,13 @@
 #include <sys/types.h>
 #include <signal.h>
 #include "F1.h"
+#include <pthread.h>
 
 #define max 10
 
-void trata(int signum)
-{
-    printf("Chegou o sinal %d em p4", signum);
-    exit(1);
+void *putaqpariu(){
+    signal(SIGUSR1, retiradeF1);
+    sleep(10);
 }
 
 int main()
@@ -67,6 +67,8 @@ int main()
 
     if(p4 == 0)
     {
+        pthread_t thread;
+        pthread_create(&thread, NULL, putaqpariu,NULL);
         signal(SIGUSR1, retiradeF1);
         sleep(10);
     }
