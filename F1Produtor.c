@@ -57,6 +57,7 @@ void FIFO(pid_t p4)
 		     sem_wait((sem_t*)&shared_area_ptr->mutex);
 			if ( shared_area_ptr->num == 0 )
 			{
+				printf("comeca a colocar.\n");
 			     for(i=0;i<10;i++)
 				   shared_area_ptr->FIFO[i] = 1 + rand() % 1000;
                  shared_area_ptr->num=i;

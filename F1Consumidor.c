@@ -16,7 +16,7 @@ struct shared_area
 };
 
 void retiradeF1(int sinal)
-{
+{	
   	int i;
 	key_t key=5678;
 	struct shared_area *shared_area_ptr;
@@ -48,19 +48,16 @@ void retiradeF1(int sinal)
 	
 	for(;;)
 	{
-				// MUDAR PARA SO MEXER QUANDO ESTIVER CHEIA
+			
 			sem_wait((sem_t*)&shared_area_ptr->mutex);
-			     if ( shared_area_ptr->num > 0)
+			     if ( shared_area_ptr->num == 10)
 			     {	
+					 printf("comeca a tirar: %d\n", shared_area_ptr->num);
 			         for(i=0;i<10;i++)
 			                printf("%d ",shared_area_ptr->FIFO[i]);
                      printf("\n");
 			         shared_area_ptr->num=0;
 			     }
-                 else
-                 {
-                    
-                 }	
 			sem_post((sem_t*)&shared_area_ptr->mutex);
 		
 	}

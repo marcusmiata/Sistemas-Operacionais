@@ -11,14 +11,14 @@
 
 #define max 10
 
-void *putaqpariu(){
+void *thr(){
     signal(SIGUSR1, retiradeF1);
     sleep(10);
 }
 
 int main()
 {   
-    pid_t p1, p2, p3, p4;
+    pid_t p1, p2, p3, p4, p5, p6;
     int espera;
 
     p4 = fork();
@@ -34,6 +34,14 @@ int main()
         if(p2 > 0)
         {
             p3 = fork();
+        }
+        if(p3 > 0)
+        { 
+            p5 = fork();
+        }
+        if(p5 > 0)
+        {
+            p6 = fork();
         }
     }
 
@@ -68,7 +76,7 @@ int main()
     if(p4 == 0)
     {
         pthread_t thread;
-        pthread_create(&thread, NULL, putaqpariu,NULL);
+        pthread_create(&thread, NULL, thr,NULL);
         signal(SIGUSR1, retiradeF1);
         sleep(10);
     }
