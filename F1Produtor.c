@@ -67,7 +67,7 @@ void FIFO(pid_t p4)
                 	kill(p4,SIGUSR1);
 				 }
 			}
-			//Espera p4 esvaziar (manual), colocar automatico depois
+			//Espera p4 esvaziar (manual), colocar automatico
 			 sleep(1);
              sem_post((sem_t*)&shared_area_ptr->mutex);
 	}

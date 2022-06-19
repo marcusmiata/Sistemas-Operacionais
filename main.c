@@ -12,8 +12,11 @@
 #define max 10
 
 void *thr(){
-    signal(SIGUSR1, retiradeF1);
-    sleep(10);
+    while(1)
+        {
+         signal(SIGUSR1, retiradeF1_2);
+         sleep(10);
+        }
 }
 
 int main()
@@ -34,14 +37,6 @@ int main()
         if(p[1] > 0)
         {
             p[2] = fork();
-        }
-        if(p[2] > 0)
-        { 
-            p[4] = fork();
-        }
-        if(p[4] > 0)
-        {
-            p[5] = fork();
         }
     }
 
@@ -74,14 +69,15 @@ int main()
     }
 
     if(p[3] == 0)
-    {
+    {   
         pthread_t thread;
-        //pthread_create(&thread, NULL, thr,NULL);
+        pthread_create(&thread, NULL, thr,NULL);
         while(1)
         {
-         signal(SIGUSR1, retiradeF1);
-         sleep(10);
+            signal(SIGUSR1, retiradeF1);
+            sleep(10);
         }
+          
     }
 
     if(p[4] == 0)
