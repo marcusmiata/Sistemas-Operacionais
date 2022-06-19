@@ -7,6 +7,7 @@
 #include <sys/types.h>
 #include <signal.h>
 #include "F1.h"
+#include "F2.h"
 #include <pthread.h>
 
 #define max 10
@@ -80,13 +81,4 @@ int main()
           
     }
 
-    if(p[4] == 0)
-    {
-        exit(0);
-    }
-
-    if(p[5] == 0)
-    {
-        exit(0);
-    }
 }

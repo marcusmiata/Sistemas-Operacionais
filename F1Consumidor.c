@@ -4,6 +4,7 @@
 #include <sys/shm.h>
 #include <semaphore.h>
 #include "F1.h"
+#include "F2.h"
 #include <signal.h>
 #include <unistd.h>
 #include <sys/wait.h>
