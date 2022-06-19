@@ -18,67 +18,79 @@ void *thr(){
 
 int main()
 {   
-    pid_t p1, p2, p3, p4, p5, p6;
+    pid_t p[7] = {-1,-1,-1,-1,-1,-1,-1};
     int espera;
 
-    p4 = fork();
-    if(p4){ 
-        if(p4 > 0)
+    p[3] = fork();
+    if(p[3]){ 
+        if(p[3] > 0)
         { 
-            p1 = fork();
+            p[0] = fork();
         }
-        if(p1>0)
+        if(p[0] > 0)
         {
-            p2 = fork();
+            p[1] = fork();
         }
-        if(p2 > 0)
+        if(p[1] > 0)
         {
-            p3 = fork();
+            p[2] = fork();
         }
-        if(p3 > 0)
+        if(p[2] > 0)
         { 
-            p5 = fork();
+            p[4] = fork();
         }
-        if(p5 > 0)
+        if(p[4] > 0)
         {
-            p6 = fork();
+            p[5] = fork();
         }
     }
 
     //PROCESSO PAI
-    if(p1 > 0 && p2 > 0 && p3 > 0 && p4 > 0){
-        waitpid(p1, NULL, -1);
-        waitpid(p2, NULL, -1);
-        waitpid(p3, NULL, -1);
+    if(p[0] > 0 && p[1] > 0 && p[2] > 0 && p[3] > 0 && p[4] > 0 && p[5] > 0){
+        waitpid(p[0], NULL, -1);
+        waitpid(p[1], NULL, -1);
+        waitpid(p[2], NULL, -1);
     }       
 
     //PROCESSO 1
-    if(p1 == 0)
+    if(p[0] == 0)
     { 
-        FIFO(p4);
+        FIFO(p[3]);
         exit(0);
     }
 
     //PROCESSO 2
-    if(p2 == 0)
+    if(p[1] == 0)
     { 
-        FIFO(p4);
+        FIFO(p[3]);
         exit(0);
     }
     
     //PROCESSO 3
-    if(p3 == 0)
+    if(p[2] == 0)
     {   
-        FIFO(p4);
+        FIFO(p[3]);
         exit(0);
     }
 
-    if(p4 == 0)
+    if(p[3] == 0)
     {
         pthread_t thread;
-        pthread_create(&thread, NULL, thr,NULL);
-        signal(SIGUSR1, retiradeF1);
-        sleep(10);
+        //pthread_create(&thread, NULL, thr,NULL);
+        while(1)
+        {
+         signal(SIGUSR1, retiradeF1);
+         sleep(10);
+        }
     }
 
+    if(p[4] == 0)
+    {
+        exit(0);
+    }
+
+    if(p[5] == 0)
+    {
+        exit(0);
+    }
 }

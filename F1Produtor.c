@@ -7,6 +7,7 @@
 #include "F1.h"
 #include <signal.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 #define MEM_SZ sizeof(struct shared_area)
 #define MAX 10
@@ -57,17 +58,19 @@ void FIFO(pid_t p4)
 		     sem_wait((sem_t*)&shared_area_ptr->mutex);
 			if ( shared_area_ptr->num == 0 )
 			{
-				printf("comeca a colocar.\n");
-			     for(i=0;i<10;i++)
+			     for(i = 0; i < 10; i++)
 				   shared_area_ptr->FIFO[i] = 1 + rand() % 1000;
-                 shared_area_ptr->num=i;
+                 shared_area_ptr->num = i;
+				 if(shared_area_ptr->num == 10)
+				 {
+					//ENVIA SINAL PARA P4
+                	kill(p4,SIGUSR1);
+				 }
 			}
-            else if (shared_area_ptr->num == 10)
-            {
-                //ENVIA SINAL PARA P4
-                kill(p4,SIGUSR1);
-            } 
+			//Espera p4 esvaziar (manual), colocar automatico depois
+			 sleep(1);
              sem_post((sem_t*)&shared_area_ptr->mutex);
 	}
+		printf("saiu");
         exit(0);
 }

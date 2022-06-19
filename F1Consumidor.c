@@ -4,6 +4,8 @@
 #include <sys/shm.h>
 #include <semaphore.h>
 #include "F1.h"
+#include <signal.h>
+#include <unistd.h>
 
 #define MEM_SZ sizeof(struct shared_area)
 #define MAX 10
@@ -45,22 +47,16 @@ void retiradeF1(int sinal)
 		printf("sem_init falhou\n");
 		exit(-1);
 	}
-	
-	for(;;)
-	{
 			
-			sem_wait((sem_t*)&shared_area_ptr->mutex);
-			     if ( shared_area_ptr->num == 10)
-			     {	
-					 printf("comeca a tirar: %d\n", shared_area_ptr->num);
-			         for(i=0;i<10;i++)
-			                printf("%d ",shared_area_ptr->FIFO[i]);
-                     printf("\n");
-			         shared_area_ptr->num=0;
-			     }
-			sem_post((sem_t*)&shared_area_ptr->mutex);
-		
+	sem_wait((sem_t*)&shared_area_ptr->mutex);
+	if ( shared_area_ptr->num == 10)
+	{	
+		for(i=0;i<10;i++)
+			printf("%d ",shared_area_ptr->FIFO[i]);
+        printf("\n");
+		shared_area_ptr->num = 0;
 	}
-
-        exit(0);
+	sem_post((sem_t*)&shared_area_ptr->mutex);
+		
+    return;
 }
